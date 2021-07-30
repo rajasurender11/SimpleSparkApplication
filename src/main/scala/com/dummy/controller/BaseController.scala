@@ -22,6 +22,9 @@ class BaseController(args: Array[String]) {
   val ordersDelimeter = config.getString("orders_delimeter")
   val hiveDatabase = config.getString("hive_database_name")
   val accountsProfileTable = config.getString("accounts_profile_table_name")
+  val accountsProfileOutputPath = config.getString("accounts_profile_output_path")
+  val atmTransOutputPath = config.getString("atm_trans_output_path")
+  val ordersOutputPath = config.getString("orders_output_path")
 
   def getRDD(hdfsLoc: String): RDD[String] = {
     spark.sparkContext.textFile(hdfsLoc)

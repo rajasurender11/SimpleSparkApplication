@@ -1,7 +1,7 @@
 package com.dummy.controller
 
 import org.slf4j.LoggerFactory
-import com.dummy.conf.SparkSessionConf._
+import com.dummy.util.DummyUtils
 
 
 class DummyTransformer(args: Array[String]) extends BaseController(args) {
@@ -18,7 +18,11 @@ class DummyTransformer(args: Array[String]) extends BaseController(args) {
     val atmTransDF = convertRDDToDataFrame(atmTransRDD, atmTransDelimeter, "AtmTrans")
     val ordersDF = convertRDDToDataFrame(ordersRDD, ordersDelimeter, "Orders")
 
+    DummyUtils.saveToHDFS(accountsDF,"avro","OverWrite",accountsProfileOutputPath)
 
+    DummyUtils.saveToHDFS(atmTransDF,"parquet","OverWrite",atmTransOutputPath)
+
+    DummyUtils.saveToHDFS(ordersDF,"avro","OverWrite",ordersOutputPath)
 
   }
 
