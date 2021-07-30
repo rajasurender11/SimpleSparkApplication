@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory
 class BaseController(args: Array[String]) {
   val log = LoggerFactory.getLogger(this.getClass)
   val configFileHDFSPath = args(0)
+  val module = args(1)
 
   val config: Config = DummyUtils.loadProperties(configFileHDFSPath)
   val accountsProfileInputPath = config.getString("accounts_profile_input_path")
@@ -25,6 +26,7 @@ class BaseController(args: Array[String]) {
   val accountsProfileOutputPath = config.getString("accounts_profile_output_path")
   val atmTransOutputPath = config.getString("atm_trans_output_path")
   val ordersOutputPath = config.getString("orders_output_path")
+  val usecase1OutputPath = config.getString("usecase1_output_path")
 
   def getRDD(hdfsLoc: String): RDD[String] = {
     spark.sparkContext.textFile(hdfsLoc)
@@ -47,7 +49,7 @@ This method is used to create a dataframe from given RDD and delimiter of file a
       case "ATMTRANS" => {
         rdd.
           map(rec => rec.split(delimiter)).
-          map(arr => AtmTrans(arr(0), arr(1), arr(2), arr(3), arr(4))).
+          map(arr => AtmTrans(arr(0), arr(1), arr(2), arr(3).toLong, arr(4))).
           toDF
       }
 

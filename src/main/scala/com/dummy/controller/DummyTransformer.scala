@@ -1,7 +1,7 @@
 package com.dummy.controller
 
-import org.slf4j.LoggerFactory
 import com.dummy.util.DummyUtils
+import org.slf4j.LoggerFactory
 
 
 class DummyTransformer(args: Array[String]) extends BaseController(args) {
@@ -18,11 +18,21 @@ class DummyTransformer(args: Array[String]) extends BaseController(args) {
     val atmTransDF = convertRDDToDataFrame(atmTransRDD, atmTransDelimeter, "AtmTrans")
     val ordersDF = convertRDDToDataFrame(ordersRDD, ordersDelimeter, "Orders")
 
-    DummyUtils.saveToHDFS(accountsDF,"avro","OverWrite",accountsProfileOutputPath)
+    val useCaseDF = module.toUpperCase() match {
+      case "USECASE1" => new UseCase1Transformer(args).transform(accountsDF, atmTransDF)
+      case _ => ordersDF
+    }
+    
+    useCaseDF.show(100, false)
 
-    DummyUtils.saveToHDFS(atmTransDF,"parquet","OverWrite",atmTransOutputPath)
 
-    DummyUtils.saveToHDFS(ordersDF,"avro","OverWrite",ordersOutputPath)
+    module.toUpperCase() match {
+      case "USECASE1" => DummyUtils.saveToHDFS(useCaseDF, "avro", "OverWrite", usecase1OutputPath)
+      case "USECASE2" => DummyUtils.saveToHDFS(useCaseDF, "avro", "OverWrite", usecase1OutputPath)
+      case _ => DummyUtils.saveToHDFS(useCaseDF, "avro", "OverWrite", usecase1OutputPath)
+    }
+
+
 
   }
 
