@@ -1,5 +1,6 @@
 package com.dummy.conf
 
+import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.SparkSession
 
 object SparkSessionConf {
@@ -9,5 +10,7 @@ object SparkSessionConf {
     .config("spark.sql.warehouse.dir", "target/spark-warehouse")
     .enableHiveSupport()
     .getOrCreate
+
+
 
 }

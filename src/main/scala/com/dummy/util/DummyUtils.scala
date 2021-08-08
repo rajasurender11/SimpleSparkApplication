@@ -47,8 +47,8 @@ object DummyUtils {
       case _ => SaveMode.Append
     }
 
-    log.info(s" Writing dataframe to hdfs loc $hdfsOutputLoc with ${mode.toString}... ")
-    df.write.format(format).mode(mode).save(hdfsOutputLoc)
+    log.info(s" Writing dataframe  of format $formatString to hdfs loc $hdfsOutputLoc with ${mode.toString}... ")
+    df.coalesce(1).write.format(format).mode(mode).save(hdfsOutputLoc)
   }
 
 

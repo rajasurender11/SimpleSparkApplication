@@ -8,17 +8,14 @@ object DummyMain {
 
   def main(args: Array[String]): Unit = {
     try {
-
       val dummyObject = new DummyTransformer(args)
       dummyObject.transform()
-
     }
     catch {
       case e: Exception => {
         log.error("Exception occurred in Spark Application : " + e.getMessage)
       }
     }
-
   }
 
 }

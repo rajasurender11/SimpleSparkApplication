@@ -27,6 +27,9 @@ class BaseController(args: Array[String]) {
   val atmTransOutputPath = config.getString("atm_trans_output_path")
   val ordersOutputPath = config.getString("orders_output_path")
   val usecase1OutputPath = config.getString("usecase1_output_path")
+  val usecase2OutputPath = config.getString("usecase2_output_path")
+  val usecase3OutputPath = config.getString("usecase3_output_path")
+  val usecase4OutputPath = config.getString("usecase4_output_path")
 
   def getRDD(hdfsLoc: String): RDD[String] = {
     spark.sparkContext.textFile(hdfsLoc)
@@ -36,7 +39,7 @@ This method is used to create a dataframe from given RDD and delimiter of file a
  */
   def convertRDDToDataFrame(rdd: RDD[String], delimiter: String, caseClassName: String): DataFrame = {
 
-    log.info(s"convertRDDToDataFrame for $caseClassName with delimiter $delimiter")
+    //log.info(s"convertRDDToDataFrame for $caseClassName with delimiter $delimiter")
 
     val df = caseClassName.toUpperCase() match {
       case "ACCOUNTSPROFILE" => {
