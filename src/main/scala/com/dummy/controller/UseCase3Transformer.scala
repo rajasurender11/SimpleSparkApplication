@@ -23,6 +23,7 @@ class UseCase3Transformer(args: Array[String]) extends BaseController(args) {
       .orderBy(desc("total_amount"))
       .limit(3)
 
+
     val notTop3DF = aggTransDF.alias("a")
       .join(top3DF.alias("b"), col("a.accountId") === col("b.accountId"), "leftouter")
       .where(col("b.accountId").isNull)

@@ -1,5 +1,6 @@
 package com.dummy.controller
 
+import com.dummy.conf.SparkSessionConf.spark
 import com.dummy.util.DummyUtils
 import org.apache.spark.storage.StorageLevel
 import org.slf4j.LoggerFactory
@@ -18,6 +19,22 @@ class DummyTransformer(args: Array[String]) extends BaseController(args) {
     val accountsDF = convertRDDToDataFrame(accountsRDD, accountsProfileDelimeter, "AccountsProfile")
     val atmTransDF = convertRDDToDataFrame(atmTransRDD, atmTransDelimeter, "AtmTrans")
     val ordersDF = convertRDDToDataFrame(ordersRDD, ordersDelimeter, "Orders")
+
+    val accountsHiveDF =  spark.sql(
+      """
+        |select * from surender_hive.accounts_profile
+        |""".stripMargin)
+
+    accountsHiveDF.show(10,2)
+
+    accountsHiveDF.createOrReplaceTempView("data")
+
+    val sampleDF = spark.sql(
+      """
+        |select * from data
+        |""".stripMargin)
+
+    sampleDF.show(10,false)
 
     val useCaseDF = module.toUpperCase() match {
       case "USECASE1" => new UseCase1Transformer(args).transform(accountsDF, atmTransDF)

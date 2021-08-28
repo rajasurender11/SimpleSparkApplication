@@ -32,7 +32,7 @@ class BaseController(args: Array[String]) {
   val usecase4OutputPath = config.getString("usecase4_output_path")
 
   def getRDD(hdfsLoc: String): RDD[String] = {
-    spark.sparkContext.textFile(hdfsLoc)
+    spark.sparkContext.textFile(hdfsLoc)// records.gz
   }
 /*
 This method is used to create a dataframe from given RDD and delimiter of file and Case Class
