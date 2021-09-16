@@ -27,14 +27,9 @@ class UseCase2Transformer(args: Array[String]) extends BaseController(args) {
   val tCols: Seq[String] = bottom3DF.columns.toSeq.tail
   val colsList = Seq.concat(aCols, tCols)
 
-
-
   accountsDF
     .join(bottom3DF, col("accountNo") === col("accountId"), "inner")
     .select(colsList.map(c => col(c)): _*)
-
-
-
 }
 
 }
