@@ -3,9 +3,11 @@ package com.dummy.util
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.sql.{DataFrame, SaveMode}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 import org.slf4j.LoggerFactory
 import com.databricks.spark.avro._
+import org.apache.spark.sql.types.StructType
+import com.dummy.conf.SparkSessionConf.spark
 
 import java.io.{FileNotFoundException, InputStreamReader}
 
@@ -50,6 +52,16 @@ object DummyUtils {
     log.info(s" Writing dataframe  of format $formatString to hdfs loc $hdfsOutputLoc with ${mode.toString}... ")
     df.coalesce(1).write.format(format).mode(mode).save(hdfsOutputLoc)
   }
+
+  def readCsvWithSchema( path:String, schema:StructType, delimiter:String = ","):DataFrame= {
+    spark
+      .read
+      .option("delimiter",delimiter)
+      .schema(schema)
+      .csv(path)
+  }
+
+
 
 
 }
