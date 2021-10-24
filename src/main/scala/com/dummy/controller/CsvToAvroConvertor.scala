@@ -26,8 +26,9 @@ class CsvToAvroConvertor(args: Array[String]) extends BaseController(args) {
       if(isFileExists) fileCount +=1 else log.info(s"HDFS file $key does not exists!!")
     })
 
-      if(fileCount == expectedFileCount )
+       if(fileCount == expectedFileCount )
         {
+
           log.info(s"All CSV files available in HDFS, Converting to AVRO")
           csvFilesSchemaMap.keys.foreach(key => {
             val schema = csvFilesSchemaMap(key)

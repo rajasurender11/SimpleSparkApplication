@@ -51,6 +51,7 @@ object DummyUtils {
 
     log.info(s" Writing dataframe  of format $formatString to hdfs loc $hdfsOutputLoc with ${mode.toString}... ")
     df.coalesce(1).write.format(format).mode(mode).save(hdfsOutputLoc)
+    df.write.format("parquet").save("/user/training/surender_hadoop/outpy")
   }
 
   def readCsvWithSchema( path:String, schema:StructType, delimiter:String = ","):DataFrame= {

@@ -23,6 +23,8 @@ class UseCase1Transformer(args: Array[String]) extends BaseController(args) {
       .limit(3)
 
 
+
+
     val aCols: Seq[String] = accountsDF.columns.toSeq
     val tCols: Seq[String] = top3DF.columns.toList.tail.toSeq
     val colsList = Seq.concat(aCols, tCols)
